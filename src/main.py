@@ -103,7 +103,12 @@ def get_herald_sun_headlines():
     
     result = []
     for e in headlines:
-        heading, detail = e.text.strip().split('\n')
+        headline = e.text.strip()
+        if '\n' in headline:
+            heading, detail = headline.split('\n')
+        else:
+            heading, detail = headline, headline
+
         result.append({'newspaper': 'herald-sun', 'heading': heading, 'detail': detail})
 
     return result
