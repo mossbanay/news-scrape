@@ -6,6 +6,14 @@ def escape_string(s):
     return s.replace('\'', '\'\'')
 
 def query_all_headlines(location='headlines.db'):
+    """Query all headlines
+
+    Queries the local database to look for all headlines.
+    
+    Returns:
+        List of dictionary objects with headlines inside
+    """
+    
     conn = sqlite3.connect(location)
 
     results = []
@@ -22,6 +30,16 @@ def query_all_headlines(location='headlines.db'):
     return results
 
 def query_custom(query, location='headlines.db'):
+    """Query database the database with a custom query
+
+    Send the database a custom sqlite3 query and get the rows returned.
+
+    Args:
+        Query to send to database
+    
+    Returns:
+        List of dictionary objects with headlines inside
+    """
     conn = sqlite3.connect(location)
 
     results = []
