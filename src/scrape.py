@@ -4,60 +4,6 @@ import sqlite3
 import os
 from bs4 import BeautifulSoup
 
-def escape_string(s):
-    return s.replace('\'', '\'\'')
-
-def create_db(location):
-    """Creates a database
-
-    Creates a database with the proper setup for use with insertion of headlines.
-
-    Args:
-        Location of headline.
-    """
-    
-    # Check if database already exists
-    if os.path.isfile(location) == True:
-        print('Cannot create database, database already exists')
-        return
-    
-    # Create database and put in default table
-    db = open(location, 'w+').close()
-    conn = sqlite3.connect(location)
-
-    with conn:
-        cur = conn.cursor()
-        
-        cur.execute("CREATE TABLE Headlines(Newspaper TEXT, Heading TEXT, Detail TEXT, Date DATETIME)")
-
-def save_to_db(location, headlines):
-    """Save headlines to database
-    
-    Connects to the local database and inserts an array of headline dictionaries.
-
-    Args:
-        Location of database to open.
-        Array of headlines.
-    
-    Raises:
-        sqlite3.Error: An error occured when communicating with the database.
-    """
-   
-    # Get a connection to the database
-    conn = sqlite3.connect(location) 
-
-    with conn:
-        cur = conn.cursor()
-        
-        for headline in headlines:
-            # (Newspaper, Heading, Detail, Date) 
-            command = "INSERT INTO Headlines VALUES ('{}', '{}', '{}', DATETIME('now'));"
-            command = command.format(escape_string(headline['newspaper']),
-                                     escape_string(headline['heading']),
-                                     escape_string(headline['detail']))
-
-            cur.execute(command)
-
 def get_australian_headlines():
     """Gets The Australian headlines.
 
