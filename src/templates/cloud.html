@@ -42,6 +42,14 @@
     var fill_aus = d3.scale.category20();
     var fill_hs = d3.scale.category20();
 
+    var aus_scale = d3.scale.log()
+        .domain({{ aus_domain }})
+        .range([10,20]);
+
+    var hs_scale = d3.scale.log()
+        .domain({{ hs_domain }})
+        .range([10,20]);
+    
     var divWidth = document.getElementById('australian-graph').offsetWidth;
 
     var pageHeight = window.innerHeight || document.body.clientHeight;
@@ -57,7 +65,7 @@
         .padding(5)
         .rotate(function() { return ~~(Math.random() * 2) * 90; })
         .font("Impact")
-        .fontSize(function(d) { return d.size; })
+        .fontSize(function(d) { return aus_scale(d.size); })
         .on("end", draw_australian)
         .start();
     
@@ -68,7 +76,7 @@
         .padding(5)
         .rotate(function() { return ~~(Math.random() * 2) * 90; })
         .font("Impact")
-        .fontSize(function(d) { return d.size; })
+        .fontSize(function(d) { return hs_scale(d.size); })
         .on("end", draw_herald_sun) 
         .start();
 
