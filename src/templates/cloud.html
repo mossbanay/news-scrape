@@ -25,7 +25,7 @@
             //}))
             //.words([{text: 'hello', size: 100}])
             .words({{ cloud_words|safe }}.map(function(d) {
-                return {text: d[0], size: d[1]}; 
+                return {text: d[0], size: d[1]*5}; 
             }))
             .padding(5)
             .rotate(function() { return ~~(Math.random() * 2) * 90; })
@@ -43,7 +43,7 @@
         .selectAll("text")
             .data(words)
         .enter().append("text")
-            .style("font-size", function(d) { return d.size*2.5 + "px"; })
+            .style("font-size", function(d) { return d.size + "px"; })
             .style("font-family", "Impact")
             .style("fill", function(d, i) { return fill(i); })
             .attr("text-anchor", "middle")
