@@ -5,17 +5,21 @@ def get_all_detail_words():
     """Get all detail words
     
     Querys the database to fetch all details and process each detail to get all words. 
-    This function does not remove duplicate words.
+    This function does not remove duplicate words, however it does remove words in the
+    Banned_words table.
 
     Returns:
         List of all words used in all details.
     """
     headlines = database.query_all_headlines()
 
+    banned_words = database.query_get_banned_words()
+
     words = []
     for headline in headlines:
         for word in headline['Detail'].lower().split():
-            words.append(word)
+            if word not in banned_words:
+                words.append(word)
 
     return words
 

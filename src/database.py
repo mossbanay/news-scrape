@@ -1,6 +1,21 @@
 import sqlite3
 
-row_names = ('Newspaper', 'Heading', 'Detail', 'Date')
+def get_column_names_from_cursor(cursor):
+    return list(map(lambda x: x[0], cursor.description))
+
+def query_get_banned_words(location='headlines.db'):
+    """Query get banned words
+
+    Queries the database to find words that should not be included in the word cloud.
+
+    Returns:
+        A list of words.
+    """
+    
+    rows = query_custom('select * from Banned_words')
+    rows = [x[0] for x in rows]
+    
+    return rows
 
 def escape_string(s):
     return s.replace('\'', '\'\'')
@@ -14,23 +29,12 @@ def query_all_headlines(location='headlines.db'):
         List of dictionary objects with headlines inside
     """
     
-    conn = sqlite3.connect(location)
-
-    results = []
-
-    with conn:
-        cur = conn.cursor()
-        cur.execute('select * from Headlines')
-        
-        rows = cur.fetchall()
-
-        for row in rows:
-            results.append(dict(zip(row_names, row)))
+    results = query_custom_with_headers('select * from Headlines')
 
     return results
 
-def query_custom(query, location='headlines.db'):
-    """Query database the database with a custom query
+def query_custom_with_headers(query, location='headlines.db'):
+    """Query custom 
 
     Send the database a custom sqlite3 query and get the rows returned.
 
@@ -38,7 +42,7 @@ def query_custom(query, location='headlines.db'):
         Query to send to database
     
     Returns:
-        List of dictionary objects with headlines inside
+        List of rows selected.
     """
     conn = sqlite3.connect(location)
 
@@ -49,11 +53,36 @@ def query_custom(query, location='headlines.db'):
         cur.execute(query)
         
         rows = cur.fetchall()
+        column_names = get_column_names_from_cursor(cur)
+
+        results = []
 
         for row in rows:
-            results.append(dict(zip(row_names, row)))
+            results.append(dict(zip(column_names, row)))
 
-    return results
+        return results
+
+def query_custom(query, location='headlines.db'):
+    """Query custom 
+
+    Send the database a custom sqlite3 query and get the rows returned.
+
+    Args:
+        Query to send to database
+    
+    Returns:
+        List of rows selected.
+    """
+    conn = sqlite3.connect(location)
+
+    results = []
+
+    with conn:
+        cur = conn.cursor()
+        cur.execute(query)
+        
+        rows = cur.fetchall()
+        return rows
 
 def create_db(location):
     """Creates a database
