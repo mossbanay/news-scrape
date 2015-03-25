@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, render_template
 import itertools
 import scrape
-import sqlite3
+import process
 
 app = Flask(__name__)
 
@@ -11,15 +11,9 @@ def home():
 
 @app.route('/cloud', methods=['GET'])
 def words():
-    words = []
+    cloud_words = process.get_all_detail_cloud_words(50)
 
-    headlines = get_current_headlines();
-
-    details = [h['detail'] for h in headlines['headlines']]
-    details = [h.lower().split() for h in details]
-    details = list(itertools.chain(*details)) 
-
-    return render_template('cloud.html', words=details)
+    return render_template('cloud.html', cloud_words=cloud_words)
 
 @app.route('/scrape/api/v1.0/latest', methods=['GET'])
 def latest():

@@ -12,14 +12,14 @@ def get_all_detail_words():
     """
     headlines = database.query_all_headlines()
 
-    words = set([])
+    words = []
     for headline in headlines:
         for word in headline['Detail'].lower().split():
             words.append(word)
 
     return words
 
-def get_latest_detail_cloud_words(number_of_words=25):
+def get_all_detail_cloud_words(number_of_words=25):
     """Get all detail cloud words
 
     Gets all words used in details and counts the frequency of each word, before converting
@@ -28,7 +28,7 @@ def get_latest_detail_cloud_words(number_of_words=25):
     Returns:
         List of lists in format of [word, frequency]
     """
-    words = get_latest_detail_words()
+    words = get_all_detail_words()
     freqs = dict(Counter(words).most_common(number_of_words))
     result = []
     for word in freqs:
