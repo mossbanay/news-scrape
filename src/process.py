@@ -1,6 +1,32 @@
 from collections import Counter
 import database
 
+def get_all_herald_sun_detail_words():
+    headlines = database.query_custom_with_headers('select * from Headlines where Newspaper=\'herald-sun\'')
+
+    banned_words = database.query_get_banned_words()
+
+    words = []
+    for headline in headlines:
+        for word in headline['Detail'].lower().split():
+            if word not in banned_words:
+                words.append(word)
+
+    return words
+
+def get_all_australian_detail_words():
+    headlines = database.query_custom_with_headers('select * from Headlines where Newspaper=\'the-australian\'')
+
+    banned_words = database.query_get_banned_words()
+
+    words = []
+    for headline in headlines:
+        for word in headline['Detail'].lower().split():
+            if word not in banned_words:
+                words.append(word)
+
+    return words
+
 def get_all_detail_words():
     """Get all detail words
     
@@ -22,6 +48,13 @@ def get_all_detail_words():
                 words.append(word)
 
     return words
+
+def to_cloud_words(words, number_of_words=25):
+    freqs = dict(Counter(words).most_common(number_of_words))
+    result = []
+    for word in freqs:
+        result.append([word, freqs[word]])
+    return result
 
 def get_all_detail_cloud_words(number_of_words=25):
     """Get all detail cloud words

@@ -5,50 +5,110 @@
     <title>news-scrape</title>
     <script src="{{ url_for('static', filename='lib/d3.min.js') }}" charset="utf-8"></script>
     <script src="{{ url_for('static', filename='lib/d3.layout.cloud.js') }}" charset="utf-8"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}"/>
     <style>
-        svg {
+        h2 {
+            text-align : center;
+        }
+        h3 {
             text-align : center;
         }
     </style>
 </head>
 
 <body>
+<div class="container-fluid">
+    <br/>
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8 well">
+            <h2>News Scrape</h2>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+    <br/>
+    <div class="row well">
+        <div class="col-md-6">
+            <h3>The Australian</h3>
+            <div id="australian-graph"></div>
+        </div>
+        <div class="col-md-6">
+            <h3>Herald Sun</h3>
+            <div id="herald-sun-graph"></div>
+        </div>
+    </div>
+</div>    
 <script>
-    var fill = d3.scale.category20();
+    var fill_aus = d3.scale.category20();
+    var fill_hs = d3.scale.category20();
 
-    var height = window.innerHeight || document.body.clientHeight;
-    var width = window.innerWidth || document.body.clientWidth;
+    var divWidth = document.getElementById('australian-graph').offsetWidth;
+
+    var pageHeight = window.innerHeight || document.body.clientHeight;
+    var pageWidth = window.innerWidth || document.body.clientWidth;
+
+    var width = divWidth;
+    var height = pageHeight / pageWidth * divWidth;
 
     d3.layout.cloud().size([width, height])
-        .words({{ cloud_words|safe }}.map(function(d) {
+        .words({{ australian_cloud_words|safe }}.map(function(d) {
             return {text: d[0], size: d[1]*5}; 
         }))
         .padding(5)
         .rotate(function() { return ~~(Math.random() * 2) * 90; })
         .font("Impact")
         .fontSize(function(d) { return d.size; })
-        .on("end", draw)
+        .on("end", draw_australian)
+        .start();
+    
+    d3.layout.cloud().size([width, height])
+        .words({{ herald_sun_cloud_words|safe }}.map(function(d) {
+            return {text: d[0], size: d[1]*5}; 
+        }))
+        .padding(5)
+        .rotate(function() { return ~~(Math.random() * 2) * 90; })
+        .font("Impact")
+        .fontSize(function(d) { return d.size; })
+        .on("end", draw_herald_sun) 
         .start();
 
-function draw(words) {
-    d3.select("body").append("svg")
-        .attr("width", width)
-        .attr("height", height)
-    .append("g")
-        .attr("transform", "translate(" + width/2 + "," + height/2 + ")")
-    .selectAll("text")
-        .data(words)
-    .enter().append("text")
-        .style("font-size", function(d) { return d.size + "px"; })
-        .style("font-family", "Impact")
-        .style("fill", function(d, i) { return fill(i); })
-        .attr("text-anchor", "middle")
-        .attr("transform", function(d) {
-            return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
-        })
-        .text(function(d) { return d.text; });
-        
-}
+    function draw_australian(words) {
+        d3.select("#australian-graph").append("svg")
+            .attr("width", width)
+            .attr("height", height)
+        .append("g")
+            .attr("transform", "translate(" + width/2 + "," + height/2 + ")")
+        .selectAll("text")
+            .data(words)
+        .enter().append("text")
+            .style("font-size", function(d) { return d.size + "px"; })
+            .style("font-family", "Impact")
+            .style("fill", function(d, i) { return fill_aus(i); })
+            .attr("text-anchor", "middle")
+            .attr("transform", function(d) {
+                return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
+            })
+            .text(function(d) { return d.text; });
+    }
+
+    function draw_herald_sun(words) {
+        d3.select("#herald-sun-graph").append("svg")
+            .attr("width", width)
+            .attr("height", height)
+        .append("g")
+            .attr("transform", "translate(" + width/2 + "," + height/2 + ")")
+        .selectAll("text")
+            .data(words)
+        .enter().append("text")
+            .style("font-size", function(d) { return d.size + "px"; })
+            .style("font-family", "Impact")
+            .style("fill", function(d, i) { return fill_hs(i); })
+            .attr("text-anchor", "middle")
+            .attr("transform", function(d) {
+                return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
+            })
+            .text(function(d) { return d.text; });
+    }
 </script>
 </body>
 </html>
