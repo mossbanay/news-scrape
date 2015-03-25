@@ -1,5 +1,18 @@
 import sqlite3
 
+def delete_duplicates(table, location='headlines.db'):
+    """Delete duplicates
+
+    Delete all duplicate headlines found in database.
+    """
+
+    conn = sqlite3.connect(location)
+
+    with conn:
+        cur = conn.cursor()
+        query = 'delete from {} where rowid not in (select max(rowid) from {} group by Heading)';
+        cur.execute(query.format(table))
+
 def get_column_names_from_cursor(cursor):
     return list(map(lambda x: x[0], cursor.description))
 
