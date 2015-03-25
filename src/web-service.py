@@ -20,11 +20,6 @@ def latest():
     result = get_latest_headlines()
     return jsonify(result)
 
-@app.route('/scrape/api/v1.0/current', methods=['GET'])
-def current():
-    result = get_current_headlines()
-    return jsonify(result)
-
 def get_latest_headlines():
     # Go get the top 5 latest from each newspaper
     aus = scrape.get_australian_headlines()[:5]
@@ -33,15 +28,6 @@ def get_latest_headlines():
     result = {'headlines': aus+hs}
 
     return result 
-
-def get_current_headlines():
-    # Go get the latest from each newspaper
-    aus = scrape.get_australian_headlines()
-    hs = scrape.get_herald_sun_headlines()
-    
-    result = {'headlines': aus+hs}
-
-    return result
 
 if __name__ == '__main__':
     app.run(debug=True)

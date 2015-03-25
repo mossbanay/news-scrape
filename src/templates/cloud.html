@@ -20,10 +20,6 @@
         var width = window.innerWidth || document.body.clientWidth;
 
         d3.layout.cloud().size([width, height])
-            //.words({{ words|safe }}.map(function(d) {
-            //    return {text: d, size: 10 + Math.random() * 90};
-            //}))
-            //.words([{text: 'hello', size: 100}])
             .words({{ cloud_words|safe }}.map(function(d) {
                 return {text: d[0], size: d[1]*5}; 
             }))

@@ -1,7 +1,5 @@
 import sys
 import requests
-import sqlite3
-import os
 from bs4 import BeautifulSoup
 
 def get_australian_headlines():
