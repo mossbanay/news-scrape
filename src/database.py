@@ -1,4 +1,5 @@
 import sqlite3
+import os
 
 def delete_duplicates(table, location='headlines.db'):
     """Delete duplicates
@@ -16,7 +17,7 @@ def delete_duplicates(table, location='headlines.db'):
 def get_column_names_from_cursor(cursor):
     return list(map(lambda x: x[0], cursor.description))
 
-def query_get_banned_words(location='headlines.db'):
+def query_get_banned_words():
     """Query get banned words
 
     Queries the database to find words that should not be included in the word cloud.
@@ -33,7 +34,7 @@ def query_get_banned_words(location='headlines.db'):
 def escape_string(s):
     return s.replace('\'', '\'\'')
 
-def query_all_headlines(location='headlines.db'):
+def query_all_headlines():
     """Query all headlines
 
     Queries the local database to look for all headlines.
@@ -58,8 +59,6 @@ def query_custom_with_headers(query, location='headlines.db'):
         List of rows selected.
     """
     conn = sqlite3.connect(location)
-
-    results = []
 
     with conn:
         cur = conn.cursor()
@@ -87,8 +86,6 @@ def query_custom(query, location='headlines.db'):
         List of rows selected.
     """
     conn = sqlite3.connect(location)
-
-    results = []
 
     with conn:
         cur = conn.cursor()

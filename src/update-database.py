@@ -15,4 +15,4 @@ database.save_to_db('headlines.db', aus)
 database.save_to_db('headlines.db', hs)
 
 # Delete duplicates
-database.delete_duplicates()
+# database.delete_duplicates('Headlines')
