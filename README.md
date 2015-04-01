@@ -8,6 +8,10 @@ To run the project locally, do: `python web-service.py` from the src directory.
 
 Running `python update-database.py` will go and fetch new headlines. It is recommended to run this via cron to save the hassle of running the script every now and then while still maintaining an up to date database.
 
+# Screenshot
+
+![](https://raw.githubusercontent.com/leaen/news-scrape/master/screenshot.png)
+
 # Credits
 
 This project uses d3-cloud wrriten by Jason Davies (jasondavies)
