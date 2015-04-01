@@ -15,7 +15,7 @@ def delete_duplicates(table, location='headlines.db'):
         cur.execute(query.format(table))
 
 def get_column_names_from_cursor(cursor):
-    return list(map(lambda x: x[0], cursor.description))
+    return [x[0] for x in cursor.description]
 
 def query_get_banned_words():
     """Query get banned words
@@ -104,12 +104,12 @@ def create_db(location):
     """
     
     # Check if database already exists
-    if os.path.isfile(location) == True:
+    if os.path.isfile(location):
         print('Cannot create database, database already exists')
         return
     
     # Create database and put in default table
-    db = open(location, 'w+').close()
+    open(location, 'w+').close()
     conn = sqlite3.connect(location)
 
     with conn:

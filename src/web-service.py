@@ -1,5 +1,4 @@
 from flask import Flask, jsonify, render_template
-import itertools
 import scrape
 import process
 
@@ -17,13 +16,13 @@ def words():
     australian_cloud_words = process.to_cloud_words(australian_words, 25)
     herald_sun_cloud_words = process.to_cloud_words(herald_sun_words, 25)
 
-    max_aus = max([x[1] for x in australian_cloud_words])
-    min_aus = min([x[1] for x in australian_cloud_words])
+    max_aus = max(x[1] for x in australian_cloud_words)
+    min_aus = min(x[1] for x in australian_cloud_words)
 
     aus_domain = [min_aus, max_aus]
 
-    max_hs = max([x[1] for x in herald_sun_cloud_words])
-    min_hs = min([x[1] for x in herald_sun_cloud_words])
+    max_hs = max(x[1] for x in herald_sun_cloud_words)
+    min_hs = min(x[1] for x in herald_sun_cloud_words)
 
     hs_domain = [min_hs, max_hs]
 
