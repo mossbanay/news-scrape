@@ -10,6 +10,7 @@ Running `python update-database.py` will go and fetch new headlines. It is recom
 
 # Screenshot
 
+Below is a screenshot of the project in the wake of two major news events, the election of Mike Baird as NSW Premier and the murder of Masa Vukotic.
 ![](https://raw.githubusercontent.com/leaen/news-scrape/master/screenshot.png)
 
 # Credits
