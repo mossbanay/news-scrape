@@ -20,7 +20,7 @@ def get_australian_headlines():
     result = []
     for e in headlines:
         heading, _, detail = e.text.strip().split('\n')
-        
+
         # Remove 'read more'
         detail = detail[:-10]
 
@@ -43,7 +43,7 @@ def get_herald_sun_headlines():
 
     content_section = soup.findAll('div', attrs={'id':'content-2'})[0]
     headlines = content_section.findAll('h4', attrs={'class':'heading'})
-    
+
     result = []
     for e in headlines:
         headline = e.text.strip()

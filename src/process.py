@@ -29,8 +29,8 @@ def get_all_australian_detail_words():
 
 def get_all_detail_words():
     """Get all detail words
-    
-    Querys the database to fetch all details and process each detail to get all words. 
+
+    Querys the database to fetch all details and process each detail to get all words.
     This function does not remove duplicate words, however it does remove words in the
     Banned_words table.
 
