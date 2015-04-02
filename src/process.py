@@ -6,11 +6,10 @@ def get_all_herald_sun_detail_words():
 
     banned_words = database.query_get_banned_words()
 
-    words = []
-    for headline in headlines:
-        for word in headline['Detail'].lower().split():
-            if word not in banned_words:
-                words.append(word)
+    words = [word
+             for headline in headlines
+             for word in headline['Detail'].lower().split()
+             if word not in banned_words]
 
     return words
 
@@ -19,11 +18,10 @@ def get_all_australian_detail_words():
 
     banned_words = database.query_get_banned_words()
 
-    words = []
-    for headline in headlines:
-        for word in headline['Detail'].lower().split():
-            if word not in banned_words:
-                words.append(word)
+    words = [word
+             for headline in headlines
+             for word in headline['Detail'].lower().split()
+             if word not in banned_words]
 
     return words
 
@@ -41,19 +39,16 @@ def get_all_detail_words():
 
     banned_words = database.query_get_banned_words()
 
-    words = []
-    for headline in headlines:
-        for word in headline['Detail'].lower().split():
-            if word not in banned_words:
-                words.append(word)
+    words = [word
+             for headline in headlines
+             for word in headline['Detail'].lower().split()
+             if word not in banned_words]
 
     return words
 
 def to_cloud_words(words, number_of_words=25):
     freqs = dict(Counter(words).most_common(number_of_words))
-    result = []
-    for word in freqs:
-        result.append([word, freqs[word]])
+    result = [[word, freqs[word]] for word in freqs]
     return result
 
 def get_all_detail_cloud_words(number_of_words=25):
@@ -67,7 +62,5 @@ def get_all_detail_cloud_words(number_of_words=25):
     """
     words = get_all_detail_words()
     freqs = dict(Counter(words).most_common(number_of_words))
-    result = []
-    for word in freqs:
-        result.append([word, freqs[word]])
+    result = [[word, freqs[word]] for word in freqs]
     return result

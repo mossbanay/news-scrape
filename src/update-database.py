@@ -3,7 +3,7 @@ import database
 import os
 
 # Check if db exists
-if os.path.isfile('headlines.db') == False:
+if not os.path.isfile('headlines.db'):
     database.create_db('headlines.db')
 
 # Fetch headlines
